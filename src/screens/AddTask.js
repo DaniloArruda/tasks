@@ -28,7 +28,7 @@ export default class AddTask extends Component {
 
     const data = { ...this.state };
     this.props.onSave(data);
-    this.setState({ initialState });
+    this.setState({ ...initialState });
   }
 
   handleDateAndroidChanged = () => {

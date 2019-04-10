@@ -6,7 +6,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Platform,
+  AsyncStorage,
 } from 'react-native';
 import todayImage from '../../assets/imgs/today.jpg';
 import moment from 'moment';
@@ -51,6 +51,7 @@ export default class Agenda extends Component {
     }
 
     this.setState({ visibleTasks });
+    AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks));
   }
 
   toggleFilter = () => {
@@ -70,8 +71,10 @@ export default class Agenda extends Component {
     this.setState({ tasks }, this.filterTasks);
   }
 
-  componentDidMount = () => {
-    this.filterTasks();
+  componentDidMount = async () => {
+    const data = await AsyncStorage.getItem('tasks');
+    const tasks = JSON.parse(data) || [];
+    this.setState({ tasks }, this.filterTasks);
   }
 
   render() {
